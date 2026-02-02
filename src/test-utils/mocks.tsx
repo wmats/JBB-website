@@ -40,44 +40,33 @@ export const mockNextRouter = (router: Partial<any> = {}) => {
 };
 
 // Chakra UI mocks
-export const mockUseMediaQuery = (matches: boolean[] = [true]) => {
-  vi.mock("@chakra-ui/react", async () => {
-    const actual = await vi.importActual("@chakra-ui/react");
-    return {
-      ...actual,
-      useMediaQuery: () => matches,
-    };
-  });
-};
+// Note: Due to how vi.mock works, useMediaQuery should be mocked directly in test files
+// Example:
+// vi.mock("@chakra-ui/react", async () => {
+//   const actual = await vi.importActual("@chakra-ui/react");
+//   return { ...actual, useMediaQuery: () => [true] };
+// });
 
 // NextAuth mocks
-export const mockUseSession = (
-  session: any = null,
-  status: "authenticated" | "unauthenticated" | "loading" = "unauthenticated"
-) => {
-  vi.mock("next-auth/react", () => ({
-    useSession: () => ({ data: session, status }),
-    signIn: vi.fn(),
-    signOut: vi.fn(),
-  }));
-};
+// Note: Mock next-auth directly in test files
+// Example:
+// vi.mock("next-auth/react", () => ({
+//   useSession: () => ({ data: null, status: "unauthenticated" }),
+//   signIn: vi.fn(),
+//   signOut: vi.fn(),
+// }));
 
 // Axios mocks
-export const mockAxios = () => {
-  const axios = {
-    get: vi.fn(),
-    post: vi.fn(),
-    put: vi.fn(),
-    delete: vi.fn(),
-    patch: vi.fn(),
-  };
-
-  vi.mock("axios", () => ({
-    default: axios,
-  }));
-
-  return axios;
-};
+// Note: Mock axios directly in test files that need it
+// Example:
+// vi.mock("axios", () => ({
+//   default: {
+//     get: vi.fn(),
+//     post: vi.fn(),
+//     put: vi.fn(),
+//     delete: vi.fn(),
+//   },
+// }));
 
 // Algolia mocks
 export const mockAlgolia = () => {
