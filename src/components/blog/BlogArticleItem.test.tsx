@@ -51,15 +51,15 @@ describe("<BlogArticleItem />", () => {
   });
 
   test("renders all categories", () => {
-    renderWithChakra(
+    const { container } = renderWithChakra(
       <BlogArticleItem
         {...defaultPost}
         categories={["Beauty", "Skincare", "Tips"]}
       />
     );
-    expect(screen.getByText("Beauty")).toBeInTheDocument();
-    expect(screen.getByText("Skincare")).toBeInTheDocument();
-    expect(screen.getByText("Tips")).toBeInTheDocument();
+    expect(container.textContent).toContain("Beauty");
+    expect(container.textContent).toContain("Skincare");
+    expect(container.textContent).toContain("Tips");
   });
 
   test("renders intro text", () => {
@@ -69,7 +69,7 @@ describe("<BlogArticleItem />", () => {
 
   test("renders image with correct src", () => {
     renderWithChakra(<BlogArticleItem {...defaultPost} />);
-    const img = screen.getByAlt(defaultPost.title);
+    const img = screen.getByAltText(defaultPost.title);
     expect(img).toBeInTheDocument();
     expect(img).toHaveAttribute("src", defaultPost.imageUrl);
   });
@@ -85,19 +85,16 @@ describe("<BlogArticleItem />", () => {
   });
 
   test("renders comment count", () => {
-    renderWithChakra(<BlogArticleItem {...defaultPost} />);
-    expect(screen.getByText("0 Commentaires")).toBeInTheDocument();
+    const { container } = renderWithChakra(<BlogArticleItem {...defaultPost} />);
+    expect(container.textContent).toContain("0 Commentaires");
   });
 
   test("renders single category without comma", () => {
-    renderWithChakra(
+    const { container } = renderWithChakra(
       <BlogArticleItem {...defaultPost} categories={["Beauty"]} />
     );
-    expect(screen.getByText("Beauty")).toBeInTheDocument();
+    expect(container.textContent).toContain("Beauty");
     // Should not have a comma after single category
-    const { container } = render(
-      <BlogArticleItem {...defaultPost} categories={["Beauty"]} />
-    );
     expect(container.textContent).not.toMatch(/Beauty,/);
   });
 

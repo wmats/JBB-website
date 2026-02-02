@@ -19,25 +19,20 @@ export const mockNextImage = () => {
   }));
 };
 
-export const mockNextRouter = (router: Partial<any> = {}) => {
-  const mockRouter = {
-    push: vi.fn(),
-    replace: vi.fn(),
-    prefetch: vi.fn(),
-    back: vi.fn(),
-    pathname: "/",
-    query: {},
-    asPath: "/",
-    route: "/",
-    ...router,
-  };
-
-  vi.mock("next/router", () => ({
-    useRouter: () => mockRouter,
-  }));
-
-  return mockRouter;
-};
+// Removed mockNextRouter - mock next/router directly in test files
+// Example:
+// vi.mock("next/router", () => ({
+//   useRouter: () => ({
+//     push: vi.fn(),
+//     replace: vi.fn(),
+//     prefetch: vi.fn(),
+//     back: vi.fn(),
+//     pathname: "/",
+//     query: {},
+//     asPath: "/",
+//     route: "/",
+//   }),
+// }));
 
 // Chakra UI mocks
 // Note: Due to how vi.mock works, useMediaQuery should be mocked directly in test files
