@@ -10,7 +10,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 1,
-      })
+      }),
     );
     expect(result.current).toEqual([1, 2, 3, 4, 5]);
   });
@@ -22,7 +22,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 1,
-      })
+      }),
     );
     expect(result.current).toContain(DOTS);
     expect(result.current[result.current.length - 1]).toBe(10);
@@ -36,7 +36,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 10,
-      })
+      }),
     );
     expect(result.current).toContain(DOTS);
     expect(result.current[0]).toBe(1);
@@ -50,7 +50,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 5,
-      })
+      }),
     );
     const dotsCount = result.current.filter((item) => item === DOTS).length;
     expect(dotsCount).toBe(2);
@@ -65,7 +65,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 1,
-      })
+      }),
     );
     expect(result.current).toEqual([1]);
   });
@@ -77,7 +77,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 2,
         currentPage: 5,
-      })
+      }),
     );
     // With siblingCount=2, should show [1, DOTS, 3, 4, 5, 6, 7, DOTS, 10]
     expect(result.current).toContain(3);
@@ -96,7 +96,7 @@ describe("usePagination", () => {
           siblingCount: 1,
           currentPage,
         }),
-      { initialProps: { currentPage: 1 } }
+      { initialProps: { currentPage: 1 } },
     );
 
     expect(result.current[0]).toBe(1);
@@ -112,7 +112,7 @@ describe("usePagination", () => {
         pageSize: 20,
         siblingCount: 1,
         currentPage: 1,
-      })
+      }),
     );
     // With pageSize=20, totalPages=5
     expect(result.current).toEqual([1, 2, 3, 4, 5]);
@@ -125,7 +125,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 1,
-      })
+      }),
     );
     // 95 items / 10 per page = 10 pages (ceiling)
     const lastPage = result.current[result.current.length - 1];
@@ -139,7 +139,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 9,
-      })
+      }),
     );
     // Should show right side without dots
     expect(result.current[0]).toBe(1);
@@ -156,7 +156,7 @@ describe("usePagination", () => {
         pageSize: 10,
         siblingCount: 1,
         currentPage: 2,
-      })
+      }),
     );
     // Should show left side without dots
     expect(result.current).toContain(1);

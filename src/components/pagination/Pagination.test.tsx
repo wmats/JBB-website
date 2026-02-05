@@ -16,12 +16,16 @@ describe("<Pagination />", () => {
   });
 
   test("returns null when currentPage is 0", () => {
-    const { container } = render(<Pagination {...defaultProps} currentPage={0} />);
+    const { container } = render(
+      <Pagination {...defaultProps} currentPage={0} />,
+    );
     expect(container.firstChild).toBeNull();
   });
 
   test("returns null when pagination range is too small", () => {
-    const { container } = render(<Pagination {...defaultProps} totalCount={5} />);
+    const { container } = render(
+      <Pagination {...defaultProps} totalCount={5} />,
+    );
     expect(container.firstChild).toBeNull();
   });
 
@@ -42,7 +46,9 @@ describe("<Pagination />", () => {
 
   test("next button increments page", () => {
     const onPageChange = vi.fn();
-    const { container } = render(<Pagination {...defaultProps} onPageChange={onPageChange} />);
+    const { container } = render(
+      <Pagination {...defaultProps} onPageChange={onPageChange} />,
+    );
 
     const paginationItems = container.querySelectorAll("li");
     const nextButton = paginationItems[paginationItems.length - 1];
@@ -53,7 +59,13 @@ describe("<Pagination />", () => {
 
   test("previous button decrements page", () => {
     const onPageChange = vi.fn();
-    const { container } = render(<Pagination {...defaultProps} currentPage={5} onPageChange={onPageChange} />);
+    const { container } = render(
+      <Pagination
+        {...defaultProps}
+        currentPage={5}
+        onPageChange={onPageChange}
+      />,
+    );
 
     const paginationItems = container.querySelectorAll("li");
     const prevButton = paginationItems[0];
@@ -63,29 +75,33 @@ describe("<Pagination />", () => {
   });
 
   test("disables previous button on first page", () => {
-    const { container } = render(<Pagination {...defaultProps} currentPage={1} />);
+    const { container } = render(
+      <Pagination {...defaultProps} currentPage={1} />,
+    );
     const paginationItems = container.querySelectorAll("li");
     const prevButton = paginationItems[0];
     // Check if any class name includes "disabled" (CSS modules hash class names)
-    const hasDisabledClass = Array.from(prevButton?.classList || []).some((cls) =>
-      cls.includes("disabled")
+    const hasDisabledClass = Array.from(prevButton?.classList || []).some(
+      (cls) => cls.includes("disabled"),
     );
     expect(hasDisabledClass).toBe(true);
   });
 
   test("disables next button on last page", () => {
-    const { container } = render(<Pagination {...defaultProps} currentPage={10} />);
+    const { container } = render(
+      <Pagination {...defaultProps} currentPage={10} />,
+    );
     const paginationItems = container.querySelectorAll("li");
     const nextButton = paginationItems[paginationItems.length - 1];
     // Check if any class name includes "disabled" (CSS modules hash class names)
-    const hasDisabledClass = Array.from(nextButton?.classList || []).some((cls) =>
-      cls.includes("disabled")
+    const hasDisabledClass = Array.from(nextButton?.classList || []).some(
+      (cls) => cls.includes("disabled"),
     );
     expect(hasDisabledClass).toBe(true);
   });
 
   test("highlights current page", () => {
-    const { container } = render(<Pagination {...defaultProps} currentPage={3} />);
+    render(<Pagination {...defaultProps} currentPage={3} />);
     const currentPageElement = screen.getByText("3").closest("li");
     expect(currentPageElement?.className).toContain("selected");
   });
@@ -97,7 +113,9 @@ describe("<Pagination />", () => {
   });
 
   test("applies custom className", () => {
-    const { container } = render(<Pagination {...defaultProps} className="custom-pagination" />);
+    const { container } = render(
+      <Pagination {...defaultProps} className="custom-pagination" />,
+    );
     const paginationContainer = container.querySelector(".custom-pagination");
     expect(paginationContainer).toBeInTheDocument();
   });

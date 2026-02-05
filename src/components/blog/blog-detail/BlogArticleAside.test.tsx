@@ -5,15 +5,19 @@ import BlogArticleAside from "./BlogArticleAside";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -53,7 +57,7 @@ describe("<BlogArticleAside />", () => {
 
   test("renders social media icons", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const socialLinks = container.querySelectorAll('a[target="_blank"]');
     expect(socialLinks.length).toBe(3); // Facebook, Instagram, Email
@@ -61,30 +65,30 @@ describe("<BlogArticleAside />", () => {
 
   test("renders Facebook link", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const facebookLink = container.querySelector(
-      'a[href="https://www.facebook.com/groups/3136931483299677"]'
+      'a[href="https://www.facebook.com/groups/3136931483299677"]',
     );
     expect(facebookLink).toBeInTheDocument();
   });
 
   test("renders Instagram link", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const instagramLink = container.querySelector(
-      'a[href="https://www.instagram.com/julie_baronnie/"]'
+      'a[href="https://www.instagram.com/julie_baronnie/"]',
     );
     expect(instagramLink).toBeInTheDocument();
   });
 
   test("renders email link", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const emailLink = container.querySelector(
-      'a[href="mailto:contact@juliebaronniebeauty.com"]'
+      'a[href="mailto:contact@juliebaronniebeauty.com"]',
     );
     expect(emailLink).toBeInTheDocument();
   });
@@ -125,7 +129,7 @@ describe("<BlogArticleAside />", () => {
 
   test("renders links to article detail pages", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const articleLinks = container.querySelectorAll('a[href*="/blog/"]');
     expect(articleLinks.length).toBeGreaterThan(0);
@@ -133,7 +137,7 @@ describe("<BlogArticleAside />", () => {
 
   test("renders aside element", () => {
     const { container } = renderWithChakra(
-      <BlogArticleAside articles={mockArticles} />
+      <BlogArticleAside articles={mockArticles} />,
     );
     const aside = container.querySelector("aside");
     expect(aside).toBeInTheDocument();

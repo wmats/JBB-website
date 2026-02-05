@@ -1,7 +1,14 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, test, expect, vi, beforeEach } from "vitest";
-import Search from "./SearchApp";
+import SearchComponent from "./SearchApp";
 import { renderWithChakra } from "../../test-utils";
+
+// Type assertion for the wrapped component
+const Search = SearchComponent as React.ComponentType<{
+  searchState: Record<string, unknown>;
+  onSearchStateChange: () => void;
+  createURL: () => void;
+}>;
 
 // Mock algoliasearch
 vi.mock("algoliasearch", () => ({
@@ -16,8 +23,11 @@ vi.mock("react-instantsearch-dom", () => ({
   InstantSearch: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="instant-search">{children}</div>
   ),
-  connectSearchBox: (Component: any) => Component,
-  connectStateResults: (Component: any) => Component,
+  connectSearchBox: (Component: React.ComponentType<Record<string, unknown>>) =>
+    Component,
+  connectStateResults: (
+    Component: React.ComponentType<Record<string, unknown>>,
+  ) => Component,
 }));
 
 // Mock CustomSearchBox
@@ -32,7 +42,9 @@ vi.mock("./CustomHits", () => ({
 
 // Mock URLSync HOC
 vi.mock("./URLSync", () => ({
-  default: (Component: any) => Component,
+  default: <P extends Record<string, unknown>>(
+    Component: React.ComponentType<P>,
+  ): React.ComponentType<P> => Component,
 }));
 
 describe("<SearchApp />", () => {
@@ -50,7 +62,7 @@ describe("<SearchApp />", () => {
         searchState={mockSearchState}
         onSearchStateChange={mockOnSearchStateChange}
         createURL={mockCreateURL}
-      />
+      />,
     );
     expect(screen.getByText("Que cherchez-vous ?")).toBeInTheDocument();
   });
@@ -61,7 +73,7 @@ describe("<SearchApp />", () => {
         searchState={mockSearchState}
         onSearchStateChange={mockOnSearchStateChange}
         createURL={mockCreateURL}
-      />
+      />,
     );
     expect(screen.getByTestId("instant-search")).toBeInTheDocument();
   });
@@ -72,7 +84,7 @@ describe("<SearchApp />", () => {
         searchState={mockSearchState}
         onSearchStateChange={mockOnSearchStateChange}
         createURL={mockCreateURL}
-      />
+      />,
     );
     expect(screen.getByTestId("custom-search-box")).toBeInTheDocument();
   });
@@ -83,7 +95,7 @@ describe("<SearchApp />", () => {
         searchState={mockSearchState}
         onSearchStateChange={mockOnSearchStateChange}
         createURL={mockCreateURL}
-      />
+      />,
     );
     expect(screen.getByTestId("custom-hits")).toBeInTheDocument();
   });

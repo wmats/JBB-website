@@ -4,14 +4,18 @@ import StickyHeader from "./StickyHeader";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 // Mock Chakra useMediaQuery
 vi.mock("@chakra-ui/react", async () => {
-  const actual: any = await vi.importActual("@chakra-ui/react");
+  const actual = await vi.importActual("@chakra-ui/react");
   return {
     ...actual,
     useMediaQuery: () => [true],

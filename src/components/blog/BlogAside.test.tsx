@@ -5,15 +5,19 @@ import BlogAside from "./BlogAside";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -42,7 +46,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Me suivre")).toBeInTheDocument();
   });
@@ -53,7 +57,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     const socialLinks = container.querySelectorAll('a[target="_blank"]');
     expect(socialLinks.length).toBeGreaterThan(0);
@@ -65,7 +69,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Catégories")).toBeInTheDocument();
   });
@@ -76,7 +80,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Beauty")).toBeInTheDocument();
     expect(container.textContent).toContain("(5)");
@@ -90,7 +94,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Toutes catégories")).toBeInTheDocument();
     expect(container.textContent).toContain("(3)"); // Total articles count
@@ -102,7 +106,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Articles récents")).toBeInTheDocument();
   });
@@ -113,7 +117,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     expect(screen.getByText("Article 1")).toBeInTheDocument();
     expect(screen.getByText("Article 2")).toBeInTheDocument();
@@ -126,7 +130,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     const beautyCategory = screen.getByText("Beauty");
     fireEvent.click(beautyCategory);
@@ -139,7 +143,7 @@ describe("<BlogAside />", () => {
         articles={mockArticles}
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
-      />
+      />,
     );
     const images = screen.getAllByRole("img");
     expect(images.length).toBe(3); // Three recent articles

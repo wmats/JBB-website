@@ -6,21 +6,25 @@ import BlogArticleItem from "./BlogArticleItem";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
 // Mock Chakra useMediaQuery
 vi.mock("@chakra-ui/react", async () => {
-  const actual: any = await vi.importActual("@chakra-ui/react");
+  const actual = await vi.importActual("@chakra-ui/react");
   return {
     ...actual,
     useMediaQuery: () => [true], // Default to larger screen
@@ -45,7 +49,7 @@ describe("<BlogArticleItem />", () => {
 
   test("renders formatted date", () => {
     renderWithChakra(
-      <BlogArticleItem {...defaultPost} issueDate="2024-01-15" />
+      <BlogArticleItem {...defaultPost} issueDate="2024-01-15" />,
     );
     expect(screen.getByText("15 Janvier 2024")).toBeInTheDocument();
   });
@@ -55,7 +59,7 @@ describe("<BlogArticleItem />", () => {
       <BlogArticleItem
         {...defaultPost}
         categories={["Beauty", "Skincare", "Tips"]}
-      />
+      />,
     );
     expect(container.textContent).toContain("Beauty");
     expect(container.textContent).toContain("Skincare");
@@ -85,13 +89,15 @@ describe("<BlogArticleItem />", () => {
   });
 
   test("renders comment count", () => {
-    const { container } = renderWithChakra(<BlogArticleItem {...defaultPost} />);
+    const { container } = renderWithChakra(
+      <BlogArticleItem {...defaultPost} />,
+    );
     expect(container.textContent).toContain("0 Commentaires");
   });
 
   test("renders single category without comma", () => {
     const { container } = renderWithChakra(
-      <BlogArticleItem {...defaultPost} categories={["Beauty"]} />
+      <BlogArticleItem {...defaultPost} categories={["Beauty"]} />,
     );
     expect(container.textContent).toContain("Beauty");
     // Should not have a comma after single category
@@ -100,7 +106,7 @@ describe("<BlogArticleItem />", () => {
 
   test("separates multiple categories with commas", () => {
     const { container } = renderWithChakra(
-      <BlogArticleItem {...defaultPost} categories={["Beauty", "Skincare"]} />
+      <BlogArticleItem {...defaultPost} categories={["Beauty", "Skincare"]} />,
     );
     expect(container.textContent).toContain("Beauty");
     expect(container.textContent).toContain("Skincare");

@@ -8,8 +8,8 @@ const mockAxiosPut = vi.fn();
 const mockAxiosDelete = vi.fn();
 vi.mock("axios", () => ({
   default: {
-    put: (...args: any[]) => mockAxiosPut(...args),
-    delete: (...args: any[]) => mockAxiosDelete(...args),
+    put: (...args: unknown[]) => mockAxiosPut(...args),
+    delete: (...args: unknown[]) => mockAxiosDelete(...args),
   },
 }));
 
@@ -50,7 +50,9 @@ describe("<Comment />", () => {
 
   test("shows edit controls when user is author", () => {
     const sessionUser = mockSessionUser({ id: 1 });
-    const { container } = renderWithChakra(<Comment {...defaultProps} sessionUser={sessionUser} />);
+    const { container } = renderWithChakra(
+      <Comment {...defaultProps} sessionUser={sessionUser} />,
+    );
     // Just verify the component renders without error when user is author
     expect(container).toBeDefined();
   });
@@ -100,7 +102,9 @@ describe("<Comment />", () => {
   });
 
   test("renders time element with correct datetime attribute", () => {
-    renderWithChakra(<Comment {...defaultProps} issueDate="2024-01-15T10:00:00Z" />);
+    renderWithChakra(
+      <Comment {...defaultProps} issueDate="2024-01-15T10:00:00Z" />,
+    );
     const timeElement = document.querySelector("time");
     expect(timeElement).toHaveAttribute("dateTime", "2024-01-15T10:00:00Z");
   });
@@ -120,7 +124,7 @@ describe("<Comment />", () => {
 
   test("handles different comment content", () => {
     renderWithChakra(
-      <Comment {...defaultProps} Content="Different comment text" />
+      <Comment {...defaultProps} Content="Different comment text" />,
     );
     expect(screen.getByText("Different comment text")).toBeInTheDocument();
   });

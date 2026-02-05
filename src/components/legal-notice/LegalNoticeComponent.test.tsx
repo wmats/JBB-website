@@ -16,7 +16,7 @@ describe("<LegalNoticeComponent />", () => {
   test("renders responsible person information", () => {
     render(<LegalNoticeComponent />);
     expect(
-      screen.getByText(/Responsable de la publication : Julie Baronnie/i)
+      screen.getByText(/Responsable de la publication : Julie Baronnie/i),
     ).toBeInTheDocument();
   });
 
@@ -27,7 +27,9 @@ describe("<LegalNoticeComponent />", () => {
 
   test("renders hosting information", () => {
     render(<LegalNoticeComponent />);
-    expect(screen.getByText(/Ce site est hébergé par Vercel.com/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Ce site est hébergé par Vercel.com/i),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Vercel Inc./i)).toBeInTheDocument();
   });
 
@@ -39,9 +41,11 @@ describe("<LegalNoticeComponent />", () => {
   test("renders license information", () => {
     render(<LegalNoticeComponent />);
     expect(
-      screen.getByText(/Sauf mention contraire, tous les textes de ce site/i)
+      screen.getByText(/Sauf mention contraire, tous les textes de ce site/i),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Creative Commons Attribution/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Creative Commons Attribution/i),
+    ).toBeInTheDocument();
   });
 
   test("renders Données personnelles section heading", () => {
@@ -52,13 +56,15 @@ describe("<LegalNoticeComponent />", () => {
   test("renders personal data information", () => {
     render(<LegalNoticeComponent />);
     expect(
-      screen.getByText(/Les informations que vous nous communiquez/i)
+      screen.getByText(/Les informations que vous nous communiquez/i),
     ).toBeInTheDocument();
   });
 
   test("renders contact email", () => {
     render(<LegalNoticeComponent />);
-    expect(screen.getByText(/contact@juliebaronniebeauty.com/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/contact@juliebaronniebeauty.com/i),
+    ).toBeInTheDocument();
   });
 
   test("renders Commentaires section heading", () => {
@@ -68,9 +74,7 @@ describe("<LegalNoticeComponent />", () => {
 
   test("renders comments policy", () => {
     render(<LegalNoticeComponent />);
-    expect(
-      screen.getByText(/espace des commentaires/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/espace des commentaires/i)).toBeInTheDocument();
   });
 
   test("renders Cookies section heading", () => {
@@ -80,9 +84,7 @@ describe("<LegalNoticeComponent />", () => {
 
   test("renders cookies information", () => {
     render(<LegalNoticeComponent />);
-    expect(
-      screen.getByText(/cookie non détruit/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/cookie non détruit/i)).toBeInTheDocument();
   });
 
   test("renders browser-specific cookie instructions", () => {
@@ -114,22 +116,18 @@ describe("<LegalNoticeComponent />", () => {
 
   test("renders GDPR rights information", () => {
     render(<LegalNoticeComponent />);
-    expect(
-      screen.getByText(/de rectification/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/de rectification/i)).toBeInTheDocument();
   });
 
   test("renders moderation policy", () => {
     render(<LegalNoticeComponent />);
-    expect(
-      screen.getByText(/appliquer une modération/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/appliquer une modération/i)).toBeInTheDocument();
   });
 
   test("renders analytics information", () => {
     render(<LegalNoticeComponent />);
     expect(
-      screen.getByText(/fréquentation de notre site/i)
+      screen.getByText(/fréquentation de notre site/i),
     ).toBeInTheDocument();
   });
 });

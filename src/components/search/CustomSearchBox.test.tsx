@@ -4,8 +4,12 @@ import { renderWithChakra } from "../../test-utils";
 
 // Mock react-instantsearch-dom BEFORE importing the component
 vi.mock("react-instantsearch-dom", () => ({
-  connectSearchBox: (Component: any) => {
-    return (props: any) => <Component refine={vi.fn()} {...props} />;
+  connectSearchBox: (
+    Component: React.ComponentType<{ refine: () => void }>,
+  ) => {
+    return (props: Record<string, unknown>) => (
+      <Component refine={vi.fn()} {...props} />
+    );
   },
 }));
 

@@ -14,7 +14,13 @@ vi.mock("swr", () => ({
 
 // Mock Comment component
 vi.mock("./Comment", () => ({
-  default: ({ Content, AuthorName }: any) => (
+  default: ({
+    Content,
+    AuthorName,
+  }: {
+    Content: string;
+    AuthorName: string;
+  }) => (
     <div data-testid="comment">
       <div>{AuthorName}</div>
       <div>{Content}</div>
@@ -36,7 +42,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("First comment")).toBeInTheDocument();
     expect(screen.getByText("Second comment")).toBeInTheDocument();
@@ -48,7 +54,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     const comments = screen.getAllByTestId("comment");
     expect(comments).toHaveLength(2);
@@ -60,7 +66,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("User 1")).toBeInTheDocument();
     expect(screen.getByText("User 2")).toBeInTheDocument();
@@ -74,7 +80,7 @@ describe("<CommentsList />", () => {
         comments={mockComments}
         setComments={mockSetComments}
         sessionUser={sessionUser}
-      />
+      />,
     );
     expect(screen.getByText("First comment")).toBeInTheDocument();
   });
@@ -85,7 +91,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={[]}
         setComments={mockSetComments}
-      />
+      />,
     );
     const comments = screen.queryAllByTestId("comment");
     expect(comments).toHaveLength(0);
@@ -98,7 +104,7 @@ describe("<CommentsList />", () => {
         articleID="test-article-id"
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("First comment")).toBeInTheDocument();
   });
@@ -109,7 +115,7 @@ describe("<CommentsList />", () => {
         articleID={123}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("First comment")).toBeInTheDocument();
   });
@@ -128,7 +134,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={[comment]}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("Test content")).toBeInTheDocument();
     expect(screen.getByText("Test Author")).toBeInTheDocument();
@@ -145,7 +151,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={comments}
         setComments={mockSetComments}
-      />
+      />,
     );
     const renderedComments = screen.getAllByTestId("comment");
     expect(renderedComments).toHaveLength(3);
@@ -157,7 +163,7 @@ describe("<CommentsList />", () => {
         articleID={1}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("First comment")).toBeInTheDocument();
   });

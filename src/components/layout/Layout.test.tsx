@@ -25,7 +25,7 @@ describe("<Layout />", () => {
     const { container } = renderWithChakra(
       <Layout>
         <div>Test Content</div>
-      </Layout>
+      </Layout>,
     );
 
     // Component exists (may render null initially due to mounted flag)

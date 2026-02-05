@@ -5,15 +5,19 @@ import { screen } from "@testing-library/react";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -23,7 +27,7 @@ vi.mock("next/head", () => ({
 
 // Mock ProductItem component
 vi.mock("../products/ProductItem", () => ({
-  default: ({ product }: any) => (
+  default: ({ product }: { product: { name: string } }) => (
     <div data-testid="product-item">{product.name}</div>
   ),
 }));
@@ -50,37 +54,52 @@ describe("<HomeComponent />", () => {
 
   test("renders main heading", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(screen.getByText("Julie Baronnie Beauty")).toBeInTheDocument();
   });
 
   test("renders hero section with description", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(
-      screen.getByText(/Fils tenseurs, injections AH, mésothérapie/i)
+      screen.getByText(/Fils tenseurs, injections AH, mésothérapie/i),
     ).toBeInTheDocument();
   });
 
   test("renders recent products section heading", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(screen.getByText("Produits récents")).toBeInTheDocument();
   });
 
   test("renders recent articles section heading", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(screen.getByText("Articles récents")).toBeInTheDocument();
   });
 
   test("renders product items", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(screen.getByText("Product 1")).toBeInTheDocument();
     expect(screen.getByText("Product 2")).toBeInTheDocument();
@@ -88,7 +107,10 @@ describe("<HomeComponent />", () => {
 
   test("renders article items", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     expect(screen.getByText("Article 1")).toBeInTheDocument();
     expect(screen.getByText("Article 2")).toBeInTheDocument();
@@ -96,7 +118,10 @@ describe("<HomeComponent />", () => {
 
   test("renders article images", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     const images = screen.getAllByRole("img");
     expect(images.length).toBeGreaterThanOrEqual(2);
@@ -109,11 +134,11 @@ describe("<HomeComponent />", () => {
       documentId: "test-doc",
     });
     renderWithChakra(
-      <HomeComponent recentProducts={[]} recentArticles={[article]} />
+      <HomeComponent recentProducts={[]} recentArticles={[article]} />,
     );
     const links = screen.getAllByRole("link");
     const articleLinks = links.filter((link) =>
-      link.getAttribute("href")?.includes("/blog/")
+      link.getAttribute("href")?.includes("/blog/"),
     );
     expect(articleLinks.length).toBeGreaterThan(0);
   });
@@ -121,12 +146,15 @@ describe("<HomeComponent />", () => {
   test("truncates long article titles", () => {
     const longTitleArticle = mockBlogPost({
       id: 1,
-      title: "This is a very long article title that should be truncated after 30 characters",
+      title:
+        "This is a very long article title that should be truncated after 30 characters",
     });
     renderWithChakra(
-      <HomeComponent recentProducts={[]} recentArticles={[longTitleArticle]} />
+      <HomeComponent recentProducts={[]} recentArticles={[longTitleArticle]} />,
     );
-    expect(screen.getByText(/This is a very long article ti.../)).toBeInTheDocument();
+    expect(
+      screen.getByText(/This is a very long article ti.../),
+    ).toBeInTheDocument();
   });
 
   test("renders article descriptions", () => {
@@ -136,28 +164,31 @@ describe("<HomeComponent />", () => {
       description: "Test description",
     });
     renderWithChakra(
-      <HomeComponent recentProducts={[]} recentArticles={[articleWithDesc]} />
+      <HomeComponent recentProducts={[]} recentArticles={[articleWithDesc]} />,
     );
     expect(screen.getByText("Test description")).toBeInTheDocument();
   });
 
   test("handles empty products array", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={[]} recentArticles={mockArticles} />
+      <HomeComponent recentProducts={[]} recentArticles={mockArticles} />,
     );
     expect(screen.getByText("Produits récents")).toBeInTheDocument();
   });
 
   test("handles empty articles array", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={[]} />
+      <HomeComponent recentProducts={mockProducts} recentArticles={[]} />,
     );
     expect(screen.getByText("Articles récents")).toBeInTheDocument();
   });
 
   test("renders read overlay button on article images", () => {
     renderWithChakra(
-      <HomeComponent recentProducts={mockProducts} recentArticles={mockArticles} />
+      <HomeComponent
+        recentProducts={mockProducts}
+        recentArticles={mockArticles}
+      />,
     );
     const readButtons = screen.getAllByText("Lire");
     expect(readButtons.length).toBe(mockArticles.length);

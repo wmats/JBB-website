@@ -5,15 +5,19 @@ import { mockProduct } from "../../test-utils";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -54,13 +58,16 @@ describe("<ProductItem />", () => {
     render(<ProductItem idx={0} product={defaultProduct} />);
     const links = screen.getAllByRole("link");
     const productLink = links.find(
-      (link) => link.getAttribute("href") === `/products/${defaultProduct.documentId}`
+      (link) =>
+        link.getAttribute("href") === `/products/${defaultProduct.documentId}`,
     );
     expect(productLink).toBeInTheDocument();
   });
 
   test("renders product container", () => {
-    const { container } = render(<ProductItem idx={5} product={defaultProduct} />);
+    const { container } = render(
+      <ProductItem idx={5} product={defaultProduct} />,
+    );
     const productDiv = container.querySelector("div");
     expect(productDiv).toBeInTheDocument();
   });

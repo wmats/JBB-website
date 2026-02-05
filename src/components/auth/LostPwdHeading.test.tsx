@@ -29,7 +29,9 @@ describe("<LostPwdHeading />", () => {
   test("renders login link", () => {
     renderWithChakra(<LostPwdHeading />);
     const links = screen.getAllByRole("link");
-    const loginLink = links.find((link) => link.getAttribute("href") === "/login");
+    const loginLink = links.find(
+      (link) => link.getAttribute("href") === "/login",
+    );
     expect(loginLink).toBeInTheDocument();
   });
 });

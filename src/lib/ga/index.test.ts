@@ -1,15 +1,19 @@
 import { describe, test, expect, beforeEach, vi } from "vitest";
 import * as ga from "./index";
 
+interface WindowWithGtag extends Window {
+  gtag?: ReturnType<typeof vi.fn>;
+}
+
 describe("Google Analytics functions", () => {
   beforeEach(() => {
     // Mock window.gtag
-    (window as any).gtag = vi.fn();
+    (window as WindowWithGtag).gtag = vi.fn();
   });
 
   test("pageview sends correct data when gtag exists", () => {
     const mockGtag = vi.fn();
-    (window as any).gtag = mockGtag;
+    (window as WindowWithGtag).gtag = mockGtag;
 
     ga.pageview("/test-url");
 
@@ -18,13 +22,13 @@ describe("Google Analytics functions", () => {
       process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS,
       {
         page_path: "/test-url",
-      }
+      },
     );
   });
 
   test("event sends correct data when gtag exists", () => {
     const mockGtag = vi.fn();
-    (window as any).gtag = mockGtag;
+    (window as WindowWithGtag).gtag = mockGtag;
 
     ga.event({
       action: "test_action",

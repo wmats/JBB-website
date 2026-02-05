@@ -6,7 +6,9 @@ import { mockProduct } from "../../test-utils";
 
 // Mock child components
 vi.mock("./ProductItem", () => ({
-  default: ({ product }: any) => <div data-testid="product-item">{product.name}</div>,
+  default: ({ product }: { product: { name: string } }) => (
+    <div data-testid="product-item">{product.name}</div>
+  ),
 }));
 
 vi.mock("../pagination/Pagination", () => ({
@@ -32,7 +34,7 @@ describe("<ProductsList />", () => {
         currentPage={1}
         setCurrentPage={setCurrentPage}
         isLargerThan500={true}
-      />
+      />,
     );
 
     expect(screen.getByText("Product 1")).toBeInTheDocument();
@@ -48,7 +50,7 @@ describe("<ProductsList />", () => {
         currentPage={1}
         setCurrentPage={setCurrentPage}
         isLargerThan500={true}
-      />
+      />,
     );
 
     expect(screen.getByTestId("pagination")).toBeInTheDocument();
@@ -62,7 +64,7 @@ describe("<ProductsList />", () => {
         currentPage={1}
         setCurrentPage={setCurrentPage}
         isLargerThan500={true}
-      />
+      />,
     );
 
     expect(screen.getByText("Produits par page:")).toBeInTheDocument();
@@ -77,7 +79,7 @@ describe("<ProductsList />", () => {
         currentPage={1}
         setCurrentPage={setCurrentPage}
         isLargerThan500={true}
-      />
+      />,
     );
 
     const tousButton = screen.getByText("Tous");
@@ -95,7 +97,7 @@ describe("<ProductsList />", () => {
         currentPage={1}
         setCurrentPage={setCurrentPage}
         isLargerThan500={true}
-      />
+      />,
     );
 
     expect(container).toBeInTheDocument();

@@ -19,29 +19,39 @@ describe("<LostPwd />", () => {
   });
 
   test("renders instructions text", () => {
-    renderWithChakra(<LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />);
+    renderWithChakra(
+      <LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />,
+    );
     expect(
-      screen.getByText(/Vous avez oublié votre mot de passe/)
+      screen.getByText(/Vous avez oublié votre mot de passe/),
     ).toBeInTheDocument();
   });
 
   test("renders email input field", () => {
-    const { container } = renderWithChakra(<LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />);
+    const { container } = renderWithChakra(
+      <LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />,
+    );
     const emailInput = container.querySelector('input[name="email"]');
     expect(emailInput).toBeInTheDocument();
     expect(emailInput).toHaveAttribute("type", "email");
   });
 
   test("renders submit button", () => {
-    renderWithChakra(<LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />);
+    renderWithChakra(
+      <LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />,
+    );
     expect(
-      screen.getByRole("button", { name: "Réinitialiser mon mot de passe" })
+      screen.getByRole("button", { name: "Réinitialiser mon mot de passe" }),
     ).toBeInTheDocument();
   });
 
   test("submit button is not disabled by default", () => {
-    renderWithChakra(<LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />);
-    const button = screen.getByRole("button", { name: "Réinitialiser mon mot de passe" });
+    renderWithChakra(
+      <LostPwd setError={mockSetError} setSuccess={mockSetSuccess} />,
+    );
+    const button = screen.getByRole("button", {
+      name: "Réinitialiser mon mot de passe",
+    });
     expect(button).not.toBeDisabled();
   });
 });

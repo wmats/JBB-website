@@ -24,10 +24,20 @@ describe("withUrlSync HOC", () => {
   });
 
   test("wraps component and passes props", () => {
-    const TestComponent = ({ searchState, onSearchStateChange, createURL }: any) => (
+    const TestComponent = ({
+      searchState,
+      onSearchStateChange,
+      createURL,
+    }: {
+      searchState?: unknown;
+      onSearchStateChange?: unknown;
+      createURL?: unknown;
+    }) => (
       <div data-testid="test-component">
         <div data-testid="has-props">
-          {searchState && onSearchStateChange && createURL ? "Props passed" : "No props"}
+          {searchState && onSearchStateChange && createURL
+            ? "Props passed"
+            : "No props"}
         </div>
       </div>
     );

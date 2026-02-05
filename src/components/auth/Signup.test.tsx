@@ -13,9 +13,13 @@ vi.mock("next/router", () => ({
 
 // Mock Next.js Link
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 // Mock next-auth
@@ -63,7 +67,9 @@ describe("<Signup />", () => {
 
   test("renders submit button", () => {
     renderWithChakra(<Signup setError={mockSetError} />);
-    expect(screen.getByRole("button", { name: "S'inscrire" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "S'inscrire" }),
+    ).toBeInTheDocument();
   });
 
   test("renders login link", () => {

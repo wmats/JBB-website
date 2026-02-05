@@ -1,5 +1,9 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
-import { renderWithChakra, mockBlogPost, mockComment } from "../../../test-utils";
+import {
+  renderWithChakra,
+  mockBlogPost,
+  mockComment,
+} from "../../../test-utils";
 import CommentsSection from "./CommentsSection";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 
@@ -11,16 +15,24 @@ vi.mock("next-auth/react", () => ({
 
 // Mock next/link
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 // Mock CommentsList component
 vi.mock("./CommentsList", () => ({
-  default: ({ comments }: any) => (
+  default: ({
+    comments,
+  }: {
+    comments: Array<{ id: number; Content: string }>;
+  }) => (
     <div data-testid="comments-list">
-      {comments.map((comment: any) => (
+      {comments.map((comment) => (
         <div key={comment.id}>{comment.Content}</div>
       ))}
     </div>
@@ -31,7 +43,7 @@ vi.mock("./CommentsList", () => ({
 const mockAxiosPost = vi.fn();
 vi.mock("axios", () => ({
   default: {
-    post: (...args: any[]) => mockAxiosPost(...args),
+    post: (...args: unknown[]) => mockAxiosPost(...args),
   },
 }));
 
@@ -55,7 +67,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("Laisser un commentaire")).toBeInTheDocument();
   });
@@ -67,7 +79,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText(/Vous devez être/i)).toBeInTheDocument();
     expect(screen.getByText("connecté")).toBeInTheDocument();
@@ -80,7 +92,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     const signinLink = screen.getByRole("link", { name: /connecté/i });
     expect(signinLink).toBeInTheDocument();
@@ -89,7 +101,12 @@ describe("<CommentsSection />", () => {
 
   test("renders textarea when user is authenticated", () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -98,14 +115,21 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
-    expect(screen.getByPlaceholderText("Ajoutez un commentaire...")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Ajoutez un commentaire..."),
+    ).toBeInTheDocument();
   });
 
   test("shows buttons when textarea is focused", async () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -114,7 +138,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
 
     const textarea = screen.getByPlaceholderText("Ajoutez un commentaire...");
@@ -128,7 +152,12 @@ describe("<CommentsSection />", () => {
 
   test("submit button is disabled when textarea is empty", async () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -137,7 +166,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
 
     const textarea = screen.getByPlaceholderText("Ajoutez un commentaire...");
@@ -151,7 +180,12 @@ describe("<CommentsSection />", () => {
 
   test("submit button is enabled when textarea has text", async () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -160,7 +194,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
 
     const textarea = screen.getByPlaceholderText("Ajoutez un commentaire...");
@@ -175,7 +209,12 @@ describe("<CommentsSection />", () => {
 
   test("cancel button clears textarea", async () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -184,11 +223,11 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
 
     const textarea = screen.getByPlaceholderText(
-      "Ajoutez un commentaire..."
+      "Ajoutez un commentaire...",
     ) as HTMLTextAreaElement;
     fireEvent.focus(textarea);
     fireEvent.change(textarea, { target: { value: "Test comment" } });
@@ -212,7 +251,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByTestId("comments-list")).toBeInTheDocument();
   });
@@ -224,7 +263,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("Comment 1")).toBeInTheDocument();
     expect(screen.getByText("Comment 2")).toBeInTheDocument();
@@ -237,14 +276,19 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={[]}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByTestId("comments-list")).toBeInTheDocument();
   });
 
   test("textarea has correct attributes", () => {
     const session = {
-      user: { id: 1, name: "Test User", email: "test@test.com", accessToken: "token" },
+      user: {
+        id: 1,
+        name: "Test User",
+        email: "test@test.com",
+        accessToken: "token",
+      },
     };
     mockUseSession.mockReturnValue({ data: session, status: "authenticated" });
 
@@ -253,7 +297,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
 
     const textarea = screen.getByPlaceholderText("Ajoutez un commentaire...");
@@ -270,7 +314,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     expect(screen.getByText("Laisser un commentaire")).toBeInTheDocument();
   });
@@ -282,9 +326,11 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
-    expect(screen.queryByPlaceholderText("Ajoutez un commentaire...")).not.toBeInTheDocument();
+    expect(
+      screen.queryByPlaceholderText("Ajoutez un commentaire..."),
+    ).not.toBeInTheDocument();
   });
 
   test("renders section element", () => {
@@ -294,7 +340,7 @@ describe("<CommentsSection />", () => {
         article={mockArticle}
         comments={mockComments}
         setComments={mockSetComments}
-      />
+      />,
     );
     const section = container.querySelector("section");
     expect(section).toBeInTheDocument();

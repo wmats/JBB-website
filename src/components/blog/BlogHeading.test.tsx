@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import { renderWithChakra } from "../../test-utils";
 import BlogHeading from "./BlogHeading";

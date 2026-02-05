@@ -3,15 +3,19 @@ import { describe, test, expect, vi, beforeEach } from "vitest";
 
 // Mock Next.js components BEFORE imports that use them
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -29,12 +33,16 @@ vi.mock("next/router", () => ({
   }),
 }));
 
-import { renderWithChakra, mockBlogPost, mockComment } from "../../../test-utils";
+import {
+  renderWithChakra,
+  mockBlogPost,
+  mockComment,
+} from "../../../test-utils";
 import BlogArticleDetail from "./BlogArticleDetail";
 
 // Mock Chakra useMediaQuery
 vi.mock("@chakra-ui/react", async () => {
-  const actual: any = await vi.importActual("@chakra-ui/react");
+  const actual = await vi.importActual("@chakra-ui/react");
   return {
     ...actual,
     useMediaQuery: () => [true], // Default to larger screen
@@ -111,7 +119,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Test Article")).toBeInTheDocument();
   });
@@ -123,7 +131,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     const img = screen.getByAltText("Test Article");
     expect(img).toBeInTheDocument();
@@ -136,7 +144,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Julie")).toBeInTheDocument();
   });
@@ -148,7 +156,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("15 Janvier 2024")).toBeInTheDocument();
   });
@@ -160,7 +168,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Beauty")).toBeInTheDocument();
     expect(screen.getByText("Skincare")).toBeInTheDocument();
@@ -173,7 +181,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("2 Commentaires")).toBeInTheDocument();
   });
@@ -185,7 +193,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Test description")).toBeInTheDocument();
   });
@@ -197,7 +205,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("PARTAGER CET ARTICLE")).toBeInTheDocument();
   });
@@ -209,7 +217,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Email Icon")).toBeInTheDocument();
     expect(screen.getByText("Facebook Icon")).toBeInTheDocument();
@@ -224,7 +232,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Article Précédent")).toBeInTheDocument();
     expect(screen.getByText("Previous Post")).toBeInTheDocument();
@@ -237,7 +245,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Article Suivant")).toBeInTheDocument();
     expect(screen.getByText("Next Post")).toBeInTheDocument();
@@ -250,7 +258,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("ARTICLES RECOMMANDES")).toBeInTheDocument();
   });
@@ -262,7 +270,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Recommended Article 1")).toBeInTheDocument();
     expect(screen.getByText("Recommended Article 2")).toBeInTheDocument();
@@ -276,7 +284,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Comments Section")).toBeInTheDocument();
   });
@@ -292,7 +300,7 @@ describe("<BlogArticleDetail />", () => {
         prevNextPosts={mockPrevNextPosts}
         recommendedArticles={mockRecommendedArticles}
         articleComments={mockArticleComments}
-      />
+      />,
     );
     expect(screen.getByText("Video Embed")).toBeInTheDocument();
   });

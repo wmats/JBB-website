@@ -5,15 +5,19 @@ import ProductsAside from "./ProductsAside";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -44,7 +48,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Filtrer par prix")).toBeInTheDocument();
   });
@@ -56,7 +60,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     // Just check that the price filter section exists
     expect(screen.getByText("Filtrer par prix")).toBeInTheDocument();
@@ -69,7 +73,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Filtrer")).toBeInTheDocument();
   });
@@ -81,7 +85,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Me suivre")).toBeInTheDocument();
   });
@@ -93,7 +97,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     const socialLinks = container.querySelectorAll('a[target="_blank"]');
     expect(socialLinks.length).toBeGreaterThan(0);
@@ -106,7 +110,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Catégories")).toBeInTheDocument();
   });
@@ -118,7 +122,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Skincare")).toBeInTheDocument();
     expect(container.textContent).toContain("(5)");
@@ -133,7 +137,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Toutes catégories")).toBeInTheDocument();
     expect(container.textContent).toContain("(3)"); // Total products count
@@ -146,7 +150,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Produits récents")).toBeInTheDocument();
   });
@@ -158,7 +162,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("Product 1")).toBeInTheDocument();
     expect(screen.getByText("Product 2")).toBeInTheDocument();
@@ -172,7 +176,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     expect(screen.getByText("10,00€")).toBeInTheDocument();
     expect(screen.getByText("20,00€")).toBeInTheDocument();
@@ -186,7 +190,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     const skincareCategory = screen.getByText("Skincare");
     fireEvent.click(skincareCategory);
@@ -200,7 +204,7 @@ describe("<ProductsAside />", () => {
         activeCategories={mockActiveCategories}
         setSelectedCategory={mockSetSelectedCategory}
         setFilterRange={mockSetFilterRange}
-      />
+      />,
     );
     const images = screen.getAllByRole("img");
     expect(images.length).toBe(3); // Three recent products

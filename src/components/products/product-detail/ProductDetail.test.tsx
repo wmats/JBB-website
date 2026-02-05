@@ -5,15 +5,19 @@ import ProductDetail from "./ProductDetail";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -32,8 +36,18 @@ describe("<ProductDetail />", () => {
   });
 
   const mockPrevNextProducts = [
-    { id: 1, documentId: "prev-product", title: "Previous Product", imageUrl: "/prev.jpg" },
-    { id: 2, documentId: "next-product", title: "Next Product", imageUrl: "/next.jpg" },
+    {
+      id: 1,
+      documentId: "prev-product",
+      title: "Previous Product",
+      imageUrl: "/prev.jpg",
+    },
+    {
+      id: 2,
+      documentId: "next-product",
+      title: "Next Product",
+      imageUrl: "/next.jpg",
+    },
   ];
 
   const mockRecommendedProducts = [
@@ -56,17 +70,42 @@ describe("<ProductDetail />", () => {
         caption: null,
         width: 300,
         height: 300,
-        formats: {} as any,
+        formats: {
+          small: {
+            ext: ".jpg",
+            url: "/small.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "small",
+            path: null,
+            size: 10,
+            width: 100,
+            height: 100,
+            provider_metadata: {},
+          },
+          thumbnail: {
+            ext: ".jpg",
+            url: "/thumb.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "thumb",
+            path: null,
+            size: 5,
+            width: 50,
+            height: 50,
+            provider_metadata: {},
+          },
+        },
         hash: "test",
         ext: ".jpg",
         mime: "image/jpeg",
         size: 100,
         previewUrl: null,
         provider: "local",
-        provider_metadata: null,
+        provider_metadata: {},
         createdAt: "2024-01-01",
         updatedAt: "2024-01-01",
-        publishedAt: "2024-01-01"
+        publishedAt: "2024-01-01",
       },
       item_categories: [],
     },
@@ -89,17 +128,42 @@ describe("<ProductDetail />", () => {
         caption: null,
         width: 300,
         height: 300,
-        formats: {} as any,
+        formats: {
+          small: {
+            ext: ".jpg",
+            url: "/small.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "small",
+            path: null,
+            size: 10,
+            width: 100,
+            height: 100,
+            provider_metadata: {},
+          },
+          thumbnail: {
+            ext: ".jpg",
+            url: "/thumb.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "thumb",
+            path: null,
+            size: 5,
+            width: 50,
+            height: 50,
+            provider_metadata: {},
+          },
+        },
         hash: "test",
         ext: ".jpg",
         mime: "image/jpeg",
         size: 100,
         previewUrl: null,
         provider: "local",
-        provider_metadata: null,
+        provider_metadata: {},
         createdAt: "2024-01-01",
         updatedAt: "2024-01-01",
-        publishedAt: "2024-01-01"
+        publishedAt: "2024-01-01",
       },
       item_categories: [],
     },
@@ -122,21 +186,46 @@ describe("<ProductDetail />", () => {
         caption: null,
         width: 300,
         height: 300,
-        formats: {} as any,
+        formats: {
+          small: {
+            ext: ".jpg",
+            url: "/small.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "small",
+            path: null,
+            size: 10,
+            width: 100,
+            height: 100,
+            provider_metadata: {},
+          },
+          thumbnail: {
+            ext: ".jpg",
+            url: "/thumb.jpg",
+            hash: "hash",
+            mime: "image/jpeg",
+            name: "thumb",
+            path: null,
+            size: 5,
+            width: 50,
+            height: 50,
+            provider_metadata: {},
+          },
+        },
         hash: "test",
         ext: ".jpg",
         mime: "image/jpeg",
         size: 100,
         previewUrl: null,
         provider: "local",
-        provider_metadata: null,
+        provider_metadata: {},
         createdAt: "2024-01-01",
         updatedAt: "2024-01-01",
-        publishedAt: "2024-01-01"
+        publishedAt: "2024-01-01",
       },
       item_categories: [],
     },
-  ] as any;
+  ];
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -148,7 +237,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("test product")).toBeInTheDocument();
   });
@@ -159,7 +248,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     const img = screen.getByAltText("Test Product");
     expect(img).toBeInTheDocument();
@@ -171,7 +260,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("99,99€")).toBeInTheDocument();
   });
@@ -182,7 +271,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("Test intro")).toBeInTheDocument();
   });
@@ -193,7 +282,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("Categories:")).toBeInTheDocument();
     expect(screen.getByText("Skincare")).toBeInTheDocument();
@@ -206,7 +295,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("ACHETER")).toBeInTheDocument();
   });
@@ -217,7 +306,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("Description")).toBeInTheDocument();
   });
@@ -228,10 +317,10 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(
-      screen.getByText("Test description with link https://example.com")
+      screen.getByText("Test description with link https://example.com"),
     ).toBeInTheDocument();
   });
 
@@ -241,7 +330,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("Produits associés")).toBeInTheDocument();
   });
@@ -252,7 +341,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("Recommended Product 1")).toBeInTheDocument();
     expect(screen.getByText("Recommended Product 2")).toBeInTheDocument();
@@ -265,7 +354,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("49,99€")).toBeInTheDocument();
     expect(screen.getByText("59,99€")).toBeInTheDocument();
@@ -278,7 +367,7 @@ describe("<ProductDetail />", () => {
         product={mockProductData}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     const navLinks = container.querySelectorAll("a");
     expect(navLinks.length).toBeGreaterThan(0);
@@ -291,7 +380,7 @@ describe("<ProductDetail />", () => {
         product={productWithoutDecimal}
         prevNextProducts={mockPrevNextProducts}
         recommendedProducts={mockRecommendedProducts}
-      />
+      />,
     );
     expect(screen.getByText("50,00€")).toBeInTheDocument();
   });

@@ -95,15 +95,15 @@ export const getStaticProps: GetStaticProps = async ({
   const blogPostIdArr = (params!.blogArticleId as string).split("-");
   const blogPostDocumentId = blogPostIdArr[blogPostIdArr.length - 1];
   const res = await axios.get<ApiResponse<BlogPostApi>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/articles?populate=%2A&pagination[pageSize]=100&sort[0]=createdAt%3Adesc`
+    `${process.env.NEXT_PUBLIC_API_URL}/articles?populate=%2A&pagination[pageSize]=100&sort[0]=createdAt%3Adesc`,
   );
   const data = res.data.data.sort(sortingFn);
   const article = data.find(
-    (article) => article.documentId === blogPostDocumentId
+    (article) => article.documentId === blogPostDocumentId,
   );
   if (!article)
     throw new Error(
-      `Article with Document ID '${blogPostDocumentId}' not found`
+      `Article with Document ID '${blogPostDocumentId}' not found`,
     );
 
   const previousArticle =
@@ -168,7 +168,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   const getRecommendedArticles = (
     data: BlogPostApi[],
-    pageBlogPost: BlogPostApi
+    pageBlogPost: BlogPostApi,
   ): BlogPost[] => {
     let recommendedArticles: BlogPostApi[] = [];
     const articleCategories = article.article_categories.map((category) => {
@@ -193,7 +193,7 @@ export const getStaticProps: GetStaticProps = async ({
       const takenIds = recommendedArticles.map((post) => post.id);
       const availableArticles = data.filter(
         (article) =>
-          article.id !== pageBlogPost.id && takenIds.indexOf(article.id) < 0
+          article.id !== pageBlogPost.id && takenIds.indexOf(article.id) < 0,
       );
       let i = 0;
       while (i < 3 - recommendedArticles.length) {
@@ -237,7 +237,7 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await axios.get<ApiResponse<BlogPostApi>>(
-    `${process.env.NEXT_PUBLIC_API_URL}/articles?pagination[pageSize]=20`
+    `${process.env.NEXT_PUBLIC_API_URL}/articles?pagination[pageSize]=20`,
   );
   const data = res.data.data;
 

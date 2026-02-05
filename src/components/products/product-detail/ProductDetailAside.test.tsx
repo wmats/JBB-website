@@ -5,15 +5,19 @@ import ProductDetailAside from "./ProductDetailAside";
 
 // Mock Next.js components
 vi.mock("next/link", () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
-    <a href={href}>{children}</a>
-  ),
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => {
+  default: (props: Record<string, unknown> & { alt?: string }) => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} alt={props.alt || ""} />;
+    return <img {...props} alt={String(props.alt || "")} />;
   },
 }));
 
@@ -44,13 +48,15 @@ describe("<ProductDetailAside />", () => {
   });
 
   test("renders Me suivre section", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     expect(screen.getByText("Me suivre")).toBeInTheDocument();
   });
 
   test("renders social media icons", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const socialLinks = container.querySelectorAll('a[target="_blank"]');
     expect(socialLinks.length).toBe(3); // Facebook, Instagram, Email
@@ -58,61 +64,71 @@ describe("<ProductDetailAside />", () => {
 
   test("renders Facebook link", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const facebookLink = container.querySelector(
-      'a[href="https://www.facebook.com/groups/3136931483299677"]'
+      'a[href="https://www.facebook.com/groups/3136931483299677"]',
     );
     expect(facebookLink).toBeInTheDocument();
   });
 
   test("renders Instagram link", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const instagramLink = container.querySelector(
-      'a[href="https://www.instagram.com/julie_baronnie/"]'
+      'a[href="https://www.instagram.com/julie_baronnie/"]',
     );
     expect(instagramLink).toBeInTheDocument();
   });
 
   test("renders email link", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const emailLink = container.querySelector(
-      'a[href="mailto:contact@juliebaronniebeauty.com"]'
+      'a[href="mailto:contact@juliebaronniebeauty.com"]',
     );
     expect(emailLink).toBeInTheDocument();
   });
 
   test("renders Articles recommandés section when articles are provided", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     expect(screen.getByText("Articles recommandés")).toBeInTheDocument();
   });
 
   test("renders all related article titles", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     expect(screen.getByText("Related Article 1")).toBeInTheDocument();
     expect(screen.getByText("Related Article 2")).toBeInTheDocument();
     expect(screen.getByText("Related Article 3")).toBeInTheDocument();
   });
 
   test("renders formatted dates", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     expect(screen.getByText("15 Janvier 2024")).toBeInTheDocument();
     expect(screen.getByText("10 Février 2024")).toBeInTheDocument();
     expect(screen.getByText("5 Mars 2024")).toBeInTheDocument();
   });
 
   test("renders comment count for each article", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     const commentsText = screen.getAllByText("0 Comments");
     expect(commentsText.length).toBe(3); // One for each article
   });
 
   test("renders article images", () => {
-    renderWithChakra(<ProductDetailAside relatedArticles={mockRelatedArticles} />);
+    renderWithChakra(
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
+    );
     const images = screen.getAllByRole("img");
     expect(images.length).toBe(3);
   });
@@ -124,7 +140,7 @@ describe("<ProductDetailAside />", () => {
 
   test("renders links to article detail pages", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const articleLinks = container.querySelectorAll('a[href*="/blog/"]');
     expect(articleLinks.length).toBeGreaterThan(0);
@@ -132,7 +148,7 @@ describe("<ProductDetailAside />", () => {
 
   test("renders aside element", () => {
     const { container } = renderWithChakra(
-      <ProductDetailAside relatedArticles={mockRelatedArticles} />
+      <ProductDetailAside relatedArticles={mockRelatedArticles} />,
     );
     const aside = container.querySelector("aside");
     expect(aside).toBeInTheDocument();

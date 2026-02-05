@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import { renderWithChakra } from "../../../test-utils";
 import ProductDetailHeading from "./ProductDetailHeading";
@@ -30,7 +30,7 @@ describe("<ProductDetailHeading />", () => {
     renderWithChakra(<ProductDetailHeading name="Test" />);
     const links = screen.getAllByRole("link");
     const productsLink = links.find(
-      (link) => link.getAttribute("href") === "/products"
+      (link) => link.getAttribute("href") === "/products",
     );
     expect(productsLink).toBeInTheDocument();
   });

@@ -4,19 +4,19 @@ import { urlStringFormatter, newDate } from "./index";
 describe("urlStringFormatter", () => {
   test("formats title with documentId", () => {
     expect(urlStringFormatter("Test Title", "doc123")).toBe(
-      "test-title-doc123"
+      "test-title-doc123",
     );
   });
 
   test("handles special characters", () => {
     expect(urlStringFormatter("Café & Crème!", "doc123")).toBe(
-      "cafe-creme-doc123"
+      "cafe-creme-doc123",
     );
   });
 
   test("handles multiple spaces", () => {
     expect(urlStringFormatter("Test  Multiple   Spaces", "doc123")).toBe(
-      "test-multiple-spaces-doc123"
+      "test-multiple-spaces-doc123",
     );
   });
 
@@ -26,19 +26,19 @@ describe("urlStringFormatter", () => {
 
   test("handles accented characters", () => {
     expect(urlStringFormatter("Éléphant Français", "doc123")).toBe(
-      "elephant-francais-doc123"
+      "elephant-francais-doc123",
     );
   });
 
   test("handles French accents correctly", () => {
     expect(urlStringFormatter("Beauté Naturelle à Paris", "doc456")).toBe(
-      "beaute-naturelle-a-paris-doc456"
+      "beaute-naturelle-a-paris-doc456",
     );
   });
 
   test("collapses multiple dashes", () => {
     expect(urlStringFormatter("Test---Multiple---Dashes", "doc789")).toBe(
-      "test-multiple-dashes-doc789"
+      "test-multiple-dashes-doc789",
     );
   });
 
@@ -48,13 +48,13 @@ describe("urlStringFormatter", () => {
 
   test("handles numbers in title", () => {
     expect(urlStringFormatter("Test 123 Article", "doc456")).toBe(
-      "test-123-article-doc456"
+      "test-123-article-doc456",
     );
   });
 
   test("removes parentheses and brackets", () => {
     expect(urlStringFormatter("Test (2024) [Updated]", "doc999")).toBe(
-      "test-2024-updated-doc999"
+      "test-2024-updated-doc999",
     );
   });
 });

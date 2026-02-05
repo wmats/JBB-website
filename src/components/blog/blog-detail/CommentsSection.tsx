@@ -57,7 +57,7 @@ const CommentsSection = ({
           headers: {
             Authorization: `Bearer ${sessionUser.accessToken}`,
           },
-        }
+        },
       );
 
       newComment = {

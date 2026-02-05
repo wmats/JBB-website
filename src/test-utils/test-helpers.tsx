@@ -5,7 +5,7 @@ import { ReactElement } from "react";
 // Custom render with Chakra provider
 export function renderWithChakra(
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, "wrapper">,
 ) {
   return render(ui, {
     wrapper: ({ children }) => <ChakraProvider>{children}</ChakraProvider>,

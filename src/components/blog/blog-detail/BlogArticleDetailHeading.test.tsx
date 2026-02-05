@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, test, expect } from "vitest";
 import { renderWithChakra } from "../../../test-utils";
 import BlogArticleDetailHeading from "./BlogArticleDetailHeading";
@@ -29,7 +29,9 @@ describe("<BlogArticleDetailHeading />", () => {
   test("renders blog breadcrumb link", () => {
     renderWithChakra(<BlogArticleDetailHeading title="Test" />);
     const links = screen.getAllByRole("link");
-    const blogLink = links.find((link) => link.getAttribute("href") === "/blog");
+    const blogLink = links.find(
+      (link) => link.getAttribute("href") === "/blog",
+    );
     expect(blogLink).toBeInTheDocument();
   });
 });

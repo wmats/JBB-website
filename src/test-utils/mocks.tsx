@@ -12,7 +12,7 @@ export const mockNextLink = () => {
 
 export const mockNextImage = () => {
   vi.mock("next/image", () => ({
-    default: (props: any) => {
+    default: (props: Record<string, unknown> & { alt?: string }) => {
       // eslint-disable-next-line @next/next/no-img-element
       return <img {...props} alt={props.alt || ""} />;
     },
@@ -83,8 +83,14 @@ export const mockInstantSearch = () => {
     InstantSearch: ({ children }: { children: ReactNode }) => (
       <div>{children}</div>
     ),
-    connectSearchBox: (Component: any) => Component,
-    connectHits: (Component: any) => Component,
-    Highlight: ({ hit, attribute }: any) => <span>{hit[attribute]}</span>,
+    connectSearchBox: <T,>(Component: T) => Component,
+    connectHits: <T,>(Component: T) => Component,
+    Highlight: ({
+      hit,
+      attribute,
+    }: {
+      hit: Record<string, unknown>;
+      attribute: string;
+    }) => <span>{String(hit[attribute])}</span>,
   }));
 };

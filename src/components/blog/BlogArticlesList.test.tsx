@@ -6,7 +6,9 @@ import { mockBlogPost } from "../../test-utils";
 
 // Mock child components
 vi.mock("./BlogArticleItem", () => ({
-  default: ({ title }: any) => <div data-testid="blog-article">{title}</div>,
+  default: ({ title }: { title: string }) => (
+    <div data-testid="blog-article">{title}</div>
+  ),
 }));
 
 vi.mock("../pagination/Pagination", () => ({
@@ -32,7 +34,7 @@ describe("<BlogArticlesList />", () => {
         articles={mockArticles}
         currentPage={1}
         setCurrentPage={setCurrentPage}
-      />
+      />,
     );
 
     expect(screen.getByText("Article 1")).toBeInTheDocument();
@@ -47,7 +49,7 @@ describe("<BlogArticlesList />", () => {
         articles={mockArticles}
         currentPage={1}
         setCurrentPage={setCurrentPage}
-      />
+      />,
     );
 
     expect(screen.getByTestId("pagination")).toBeInTheDocument();
@@ -60,7 +62,7 @@ describe("<BlogArticlesList />", () => {
         articles={[]}
         currentPage={1}
         setCurrentPage={setCurrentPage}
-      />
+      />,
     );
 
     expect(container).toBeInTheDocument();
