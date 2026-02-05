@@ -176,7 +176,7 @@ function BlogArticleDetail({
               legacyBehavior
               href={`/blog/${urlStringFormatter(
                 prevNextPosts[0].title,
-                prevNextPosts[0].documentId
+                prevNextPosts[0].documentId,
               )}`}
             >
               <a>
@@ -199,7 +199,7 @@ function BlogArticleDetail({
               legacyBehavior
               href={`/blog/${urlStringFormatter(
                 prevNextPosts[1].title,
-                prevNextPosts[1].documentId
+                prevNextPosts[1].documentId,
               )}`}
             >
               <a>
@@ -230,7 +230,7 @@ function BlogArticleDetail({
                   legacyBehavior
                   href={`/blog/${urlStringFormatter(
                     article.title,
-                    article.documentId
+                    article.documentId,
                   )}`}
                 >
                   <a>

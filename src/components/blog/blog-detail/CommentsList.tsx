@@ -36,7 +36,7 @@ const CommentsList = ({
             Content: comment.Content,
             issueDate: comment.updatedAt,
             AuthorName: comment.authorUsername,
-          })
+          }),
         );
 
       setComments(cleanComments);

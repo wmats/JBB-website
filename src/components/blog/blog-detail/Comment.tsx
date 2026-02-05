@@ -76,7 +76,7 @@ export default function Comment({
           headers: {
             Authorization: `Bearer ${sessionUser.accessToken}`,
           },
-        }
+        },
       );
     } catch (err) {
       console.error(err);
@@ -107,7 +107,7 @@ export default function Comment({
           headers: {
             Authorization: `Bearer ${sessionUser.accessToken}`,
           },
-        }
+        },
       );
     } catch (err) {
       console.error(err);
